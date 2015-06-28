@@ -45,7 +45,13 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
     }
 
     $scope.sendCommand = function(cmd) {
-        alert(cmd);
+        $http.post('/api/exec/' + cmd, {}).
+          success(function(data, status, headers, config) {
+            //TODO 
+          }).
+          error(function(data, status, headers, config) {
+            //TODO
+          });
     }
 
     $scope.changeMovie = function() {
