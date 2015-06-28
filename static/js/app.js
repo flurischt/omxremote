@@ -24,11 +24,17 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
     $scope.duration = 0;
     $scope.selectedMovie = 0;
 
-    $scope.movies = [
-        {"filename" : "a.avi", "hash" : "asdf1"}, 
-        {"filename" : "b.avi", "hash" : "asdf2"}, 
-        {"filename" : "c.avi", "hash" : "asdf3"}
-    ];
+    // load a list of movie-filenames from server
+    $scope.movies = [];
+    $http.get('/api/list').
+        success(function(data, status, headers, config) {
+            $.each(data, function(i) {
+                m = data[i];
+                $scope.movies.push({'filename' : m.filename, 'hash' : m.hash}); 
+            });
+        }).
+        error(function(data, status, headers, config) {
+        });
 
     $scope.togglePlay = function() {
         status = (++status) % 2;
@@ -59,9 +65,9 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
 	$scope.updateStatus = function() {
         $http.get('/api/status').
             success(function(data, status, headers, config) {
-            $scope.filename = data.filename; 
-            $scope.position = data.progress; 
-            $scope.duration = data.duration; 
+                $scope.filename = data.filename; 
+                $scope.position = data.progress; 
+                $scope.duration = data.duration; 
             }).
             error(function(data, status, headers, config) {
                 //TODO remove / doublecheck
