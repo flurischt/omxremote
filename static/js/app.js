@@ -77,5 +77,6 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
 
 	// TODO: enable, refresh progress every 30 seconds
     $interval($scope.updateStatus, 3e4);
+    $scope.updateStatus();
 });
 
