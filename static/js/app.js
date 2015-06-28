@@ -9,16 +9,17 @@ angular.module('omxremote').controller('ModalInstanceCtrl', function ($scope, $m
     };
 });
 
-angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal, $timeout) {
+angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal, $interval, $http) {
 
     var playPauseIcon = ["glyphicon-play", "glyphicon-pause"];
     var playPauseText = ["Play", "Pause"];
     var status = 0; // 0=paused, 1=playing
 
+
     $scope.playPauseText = playPauseText[status]; 
     $scope.playPauseClass = playPauseIcon[status];
 
-    $scope.filename = "test.avi";
+    $scope.filename = "";
     $scope.position = 0;
     $scope.duration = 0;
     $scope.selectedMovie = 0;
@@ -54,6 +55,21 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
             alert('cancel');
         });
     }
-});
 
+	$scope.updateStatus = function() {
+        $http.get('/api/status').
+            success(function(data, status, headers, config) {
+            $scope.filename = data.filename; 
+            $scope.position = data.progress; 
+            $scope.duration = data.duration; 
+            }).
+            error(function(data, status, headers, config) {
+                //TODO remove / doublecheck
+                alert('fail');
+            });
+    }
+
+	// TODO: enable, refresh progress every 30 seconds
+    $interval($scope.updateStatus, 3e4);
+});
 
