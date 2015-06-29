@@ -74,6 +74,13 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
                 $scope.filename = data.filename; 
                 $scope.position = data.progress; 
                 $scope.duration = data.duration; 
+                if(data.playback) {
+                    status = 1;
+                    //TODO let angular handler the text-changes. 
+                    // just update status here...
+                    $scope.playPauseText = playPauseText[status]; 
+                    $scope.playPauseClass = playPauseIcon[status];
+                }
             }).
             error(function(data, status, headers, config) {
                 //TODO remove / doublecheck

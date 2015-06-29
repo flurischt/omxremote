@@ -17,7 +17,7 @@ def index():
 @app.route('/api/status')
 def status():
     #TODO get status via dbus
-    data = {'filename' : 'test.avi', 'progress' : 15, 'duration' : 100}
+    data = {'filename' : 'test.avi', 'progress' : 15, 'duration' : 100, 'playback' : True}
     return jsonify(data)
 
 
