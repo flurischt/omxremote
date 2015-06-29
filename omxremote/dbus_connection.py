@@ -25,55 +25,57 @@ class OmxRemote(object):
        use forceRestart to kill any existing instances and restart with 
        the new video-file.
     """
-    def __init__(self, movie=None, user='pi', forceRestart=False):
-	#TODO document when a movie is needed an when not
-        self.movie = movie
+    def __init__(self, user='pi'):
         self.user = user
-        self.connect_to_dbus(forceRestart)
+        self.properties = None
+        self.player = None
+        self.connected = self.connect_to_dbus()
 
-    def connect_to_dbus(self, restart):
+    def connect_to_dbus(self):
         try:
-            addr = self.get_dbus_address()
-        except IOError:
-            self.start_omx_player() 
-            addr = self.get_dbus_address()
-        try:
-            bus = dbus.bus.BusConnection(addr)
-            obj = bus.get_object('org.mpris.MediaPlayer2.omxplayer','/org/mpris/MediaPlayer2', introspect=False)
-            self.properties = dbus.Interface(obj,'org.freedesktop.DBus.Properties')
-            self.player = dbus.Interface(obj,'org.mpris.MediaPlayer2.Player')
-            if restart:
-                self.stop()
-                time.sleep(1)
-                self.connect_to_dbus(False)
-        except DBusException:
-            self.start_omx_player() 
             addr = self.get_dbus_address()
             bus = dbus.bus.BusConnection(addr)
             obj = bus.get_object('org.mpris.MediaPlayer2.omxplayer','/org/mpris/MediaPlayer2', introspect=False)
             self.properties = dbus.Interface(obj,'org.freedesktop.DBus.Properties')
             self.player = dbus.Interface(obj,'org.mpris.MediaPlayer2.Player')
+            return True
+        except (IOError, DBusException):
+            return False
 
     def get_dbus_address(self):
         with open('/tmp/omxplayerdbus.' + self.user, 'r') as f:
             addr = f.read().strip()
         return addr
 
-    def start_omx_player(self):
-        cmd = '/usr/bin/omxplayer -o hdmi -b %s' % self.movie
+    def start_omx_player(self, movie):
+        cmd = '/usr/bin/omxplayer -o hdmi -b %s' % movie
         p = Popen(shlex.split(cmd), stdout=file(os.devnull), env={'DISPLAY' : ':0', 'USER' : self.user})
-        #p.communicate()
         time.sleep(2) # to make sure dbus is available TODO: necessary?
 
     def send_command(self, command):
+        assert self.connected == True #TODO better raise a NotConnected exception?
         self.player.Action(dbus.Int32(str(DBUS_COMMANDS[command])))
 
     def status(self):
-        return (
-            self.properties.Duration(),
-            self.properties.Position(),
-            self.properties.PlaybackStatus() == 'Playing'
-        )
+        if self.connected:
+            return (
+                self.properties.Position(),
+                self.properties.Duration(),
+                self.properties.PlaybackStatus() == 'Playing'
+            )
+        else:
+            return (
+                0,
+                0,
+                False
+            )
+
+    def playMovie(self, movie):
+        self.connected = self.connect_to_dbus()
+        if self.connected:
+            self.stop()
+        self.start_omx_player(movie)
+        self.connected = self.connect_to_dbus()
 
     def pause(self):
         self.send_command('pause')
