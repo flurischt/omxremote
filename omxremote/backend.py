@@ -34,7 +34,8 @@ def index():
 def status():
     progress, duration, playback = OmxRemote().status()
     #TODO filename...
-    data = {'filename' : '', 'progress' : int(progress), 'duration' : int(duration), 'playback' : playback}
+    # dbus sends in microseconds. just return seconds to the UI
+    data = {'filename' : '', 'progress' : int(progress / 1e6), 'duration' : int(duration / 1e6), 'playback' : playback}
     return jsonify(data)
 
 
