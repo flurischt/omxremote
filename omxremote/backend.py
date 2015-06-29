@@ -2,6 +2,7 @@ import os
 import json
 import hashlib
 from flask import Flask, Response, request, jsonify
+from omxremote.dbus_connection import OmxRemote
 
 
 app = Flask(__name__)
@@ -19,8 +20,9 @@ def index():
 
 @app.route('/api/status')
 def status():
-    #TODO get status via dbus
-    data = {'filename' : 'test.avi', 'progress' : 15, 'duration' : 100, 'playback' : True}
+    progress, duration, playback = OmxRemote().status()
+    #TODO filename...
+    data = {'filename' : '', 'progress' : int(progress), 'duration' : int(duration), 'playback' : playback}
     return jsonify(data)
 
 
@@ -40,7 +42,7 @@ def list():
 @app.route('/api/exec/<string:cmd>', methods=['POST'])
 def command(cmd):
     assert cmd in SUPPORTED_COMMANDS
-    #TODO dbus
+    OmxRemote().send_command(cmd)
     print('got command: ' + cmd)
     return jsonify({'status' : 'OK'})
 
