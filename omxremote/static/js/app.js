@@ -47,7 +47,7 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
     $scope.sendCommand = function(cmd) {
         $http.post('/api/exec/' + cmd, {}).
           success(function(data, status, headers, config) {
-            //TODO 
+            $scope.updateStatus();
           }).
           error(function(data, status, headers, config) {
             //TODO
@@ -72,7 +72,7 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).
                 success(function(data, status, headers, config) {
-                    //TODO 
+                    $scope.updateStatus();
                 }).
                 error(function(data, status, headers, config) {
                     //TODO
