@@ -1,8 +1,7 @@
 import os
 import json
 import hashlib
-from flask import Flask, Response
-from flask import jsonify
+from flask import Flask, Response, request, jsonify
 
 
 app = Flask(__name__)
@@ -43,6 +42,12 @@ def command(cmd):
     assert cmd in SUPPORTED_COMMANDS
     #TODO dbus
     print('got command: ' + cmd)
+    return jsonify({'status' : 'OK'})
+
+
+@app.route('/api/changeMovie', methods=['POST'])
+def change_movie():
+    print(request.form['hash'])
     return jsonify({'status' : 'OK'})
 
 

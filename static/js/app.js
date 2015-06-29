@@ -55,6 +55,9 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
     }
 
     $scope.changeMovie = function() {
+        if(!$scope.selectedMovie)
+            return;
+
         var modalInstance = $modal.open({
           animation: true,
           templateUrl: 'modal.html',
@@ -62,9 +65,20 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
         });
 
         modalInstance.result.then(function () {
-            alert('ok');
-        }, function () {
-            alert('cancel');
+            $http({
+                method: 'POST',
+                url: '/api/changeMovie',
+                data: $.param({hash : $scope.selectedMovie.hash}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).
+                success(function(data, status, headers, config) {
+                    //TODO 
+                }).
+                error(function(data, status, headers, config) {
+                    //TODO
+                });
+            }, function () {
+                //DO NOTHING (aka continue playback)
         });
     }
 
