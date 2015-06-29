@@ -1,4 +1,6 @@
+import os
 import json
+import hashlib
 from flask import Flask, Response
 from flask import jsonify
 
@@ -6,7 +8,9 @@ from flask import jsonify
 app = Flask(__name__)
 
 #TODO 
-SUPPORTED_COMMANDS = ['pause', 'togglesubtitles', 'volumeup', 'volumedown', 'stop']
+SUPPORTED_COMMANDS = ('pause', 'togglesubtitles', 'volumeup', 'volumedown', 'stop')
+VIDEO_FILE_EXTENSIONS = ('.avi', '.mkv', '.mp4')
+MOVIES_DIR = 'movies_dir/'
 
 
 @app.route('/')
@@ -23,8 +27,14 @@ def status():
 
 @app.route('/api/list')
 def list():
-    #TODO get status via dbus
-    data = [{'filename' : 'a.avi', 'hash' : 'asdf'}, {'filename' : 'b.avi', 'hash' : 'bsdf'}]
+    #TODO memoize os.walk and hashing...
+    data = []
+    for path,dirs,files in os.walk(MOVIES_DIR):
+        for f in files:
+            if os.path.splitext(f)[1].lower() in VIDEO_FILE_EXTENSIONS:
+                absolute = os.path.join(path, f)
+                hash = hashlib.sha256(absolute.encode('utf-8')).hexdigest()
+                data.append({'filename' : f, 'hash' : hash})
     return Response(json.dumps(data),  mimetype='application/json')
 
 
