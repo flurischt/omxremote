@@ -86,12 +86,14 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
         $http.get('/api/status').
             success(function(data, status, headers, config) {
                 $scope.filename = data.filename; 
-                $scope.position = (new Date)
-                    .setSeconds(data.progress)
-                    .toString('H:mm:ss');
-                $scope.duration = (new Date)
-                    .setSeconds(data.duration)
-                    .toString('H:mm:ss');
+                $scope.position = data.progress;
+                $scope.duration = data.duration;
+                #$scope.position = (new Date)
+                #    .setSeconds(data.progress)
+                #    .toString('H:mm:ss');
+                #$scope.duration = (new Date)
+                #    .setSeconds(data.duration)
+                #    .toString('H:mm:ss');
                 if(data.playback) {
                     status = 1;
                     //TODO let angular handler the text-changes. 
