@@ -63,7 +63,3 @@ def change_movie():
             return jsonify({'status' : 'OK'})
     return jsonify({'status' : 'FAIL'})
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
