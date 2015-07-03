@@ -1,1 +1,3 @@
 omxremote/__pycache__/*
+build/
+dist/
