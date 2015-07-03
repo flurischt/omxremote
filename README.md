@@ -23,4 +23,4 @@ python setup.py install
 ##RUN
 Do NOT expose gunicorn to the internet. Use nginx. (TODO: document this)
 
-```gunicorn -w 2 -b 127.0.0.1:5000 omxremote:app```
+```OMXREMOTE_MOVIE_DIR=/PATH/TO/YOUR/MOVIES gunicorn -w 2 -b 127.0.0.1:5000 omxremote:app```
