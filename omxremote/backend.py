@@ -10,7 +10,7 @@ app = Flask(__name__)
 #TODO 
 SUPPORTED_COMMANDS = ('pause', 'togglesubtitles', 'volumeup', 'volumedown', 'stop')
 VIDEO_FILE_EXTENSIONS = ('.avi', '.mkv', '.mp4')
-MOVIES_DIR = os.environ('OMXREMOTE_MOVIE_DIR', 'movies_dir/')
+MOVIES_DIR = os.environ.get('OMXREMOTE_MOVIE_DIR', 'movies_dir/')
 
 
 #memoize this... 
