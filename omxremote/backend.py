@@ -22,7 +22,7 @@ def __find_movie_files():
                 absolute = os.path.join(path, f)
                 hash = hashlib.sha256(absolute.encode('utf-8')).hexdigest()
                 data.append({'filename' : f, 'hash' : hash, 'absolute' : absolute})
-    return data
+    return sorted(data, key=lambda movie: movie['filename'].lower())
 
 
 @app.route('/')
