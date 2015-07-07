@@ -16,7 +16,14 @@ MOVIES_DIR = os.environ.get('OMXREMOTE_MOVIE_DIR', 'movies_dir/')
 #memoize this... 
 def __find_movie_files():
     data = []
-    for path,dirs,files in os.walk(MOVIES_DIR):
+    for path,dirs,files in os.walk(MOVIES_DIR, topdown=True):
+        # ignore directories starting with a .
+        if len(dirs) > 0:
+            i = len(dirs) -1
+            while i >=0:
+                if dirs[i][0] == '.':
+                    del(dirs[i])
+                i = i - 1
         for f in files:
             if os.path.splitext(f)[1].lower() in VIDEO_FILE_EXTENSIONS:
                 absolute = os.path.join(path, f)
