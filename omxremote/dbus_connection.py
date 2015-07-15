@@ -48,8 +48,9 @@ class OmxRemote(object):
         return addr
 
     def start_omx_player(self, movie):
-        cmd = '/usr/bin/omxplayer -o hdmi -b %s' % movie
-        p = Popen(shlex.split(cmd), stdout=file(os.devnull), env={'DISPLAY' : ':0', 'USER' : self.user})
+        cmd = '/usr/bin/omxplayer -o hdmi -b'
+        #TODO is +[movie] safe? 
+        p = Popen(shlex.split(cmd) + [movie], stdout=file(os.devnull), env={'DISPLAY' : ':0', 'USER' : self.user})
         time.sleep(2) # to make sure dbus is available TODO: necessary?
 
     def send_command(self, command):
