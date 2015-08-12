@@ -18,7 +18,7 @@ def __find_movie_files():
     data = []
     for path,dirs,files in os.walk(MOVIES_DIR, topdown=True):
         # ignore directories starting with a .
-        if len(dirs) > 0:
+        if dirs > 0:
             i = len(dirs) -1
             while i >=0:
                 if dirs[i][0] == '.':
@@ -66,7 +66,7 @@ def change_movie():
     data = __find_movie_files()
     for f in data:  #TODO comparing with every file is obviously stupid...
         if f['hash'] == hash:
-            OmxRemote().playMovie(f['absolute'])
+            OmxRemote().play_movie(f['absolute'])
             return jsonify({'status' : 'OK'})
     return jsonify({'status' : 'FAIL'})
 

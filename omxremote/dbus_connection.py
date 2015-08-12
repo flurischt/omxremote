@@ -71,7 +71,7 @@ class OmxRemote(object):
                 False
             )
 
-    def playMovie(self, movie):
+    def play_movie(self, movie):
         self.connected = self.connect_to_dbus()
         if self.connected:
             self.stop()
