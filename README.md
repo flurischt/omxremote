@@ -15,7 +15,7 @@ What works:
 
 ##INSTALL
 ```
-apt-get install python-dbus gunicorn
+apt-get install python-dbus
 git clone https://github.com/flurischt/omxremote.git
 cd omxremote/
 python setup.py install
