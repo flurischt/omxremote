@@ -18,6 +18,7 @@ What works:
 apt-get install python-dbus
 git clone https://github.com/flurischt/omxremote.git
 cd omxremote/
+# maybe create a virtualenv before running setup.py install
 python setup.py install
 ```
 ##RUN
