@@ -103,8 +103,7 @@ angular.module("omxremote").controller("OmxRemoteCtrl", function ($scope, $modal
                 }
             }).
             error(function(data, status, headers, config) {
-                //TODO remove / doublecheck
-                alert('fail');
+                console.log('failed to call /api/status');
             });
     }
 
