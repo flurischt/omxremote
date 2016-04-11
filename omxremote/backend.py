@@ -8,7 +8,7 @@ from omxremote.dbus_connection import OmxRemote
 app = Flask(__name__)
 
 #TODO 
-SUPPORTED_COMMANDS = ('pause', 'togglesubtitles', 'volumeup', 'volumedown', 'stop')
+SUPPORTED_COMMANDS = ('pause', 'togglesubtitles', 'volumeup', 'volumedown', 'stop', 'seek_forward', 'seek_backward')
 VIDEO_FILE_EXTENSIONS = ('.avi', '.mkv', '.mp4')
 MOVIES_DIR = os.environ.get('OMXREMOTE_MOVIE_DIR', 'movies_dir/')
 

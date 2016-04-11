@@ -56,6 +56,9 @@ Changing the movie will stop the current playback and restart with the new selec
         </button>
     </p>
     <p class="lead">
+        <button type="button" class="btn btn-default btn-lg btn-default" data-ng-click="sendCommand('seek_backward')">
+         <span class="glyphicon glyphicon-fast-backward"></span> 
+        </button>
         <button type="button" class="btn btn-default btn-lg btn-default" data-ng-click="sendCommand('togglesubtitles')">
          <span class="glyphicon glyphicon-text-size"></span> Subtitles
         </button>
@@ -67,6 +70,9 @@ Changing the movie will stop the current playback and restart with the new selec
         </button>
         <button type="button" class="btn btn-default btn-lg btn-default" data-ng-click="sendCommand('stop')">
             <span class="glyphicon glyphicon-stop"></span> <span class="hidden-xs">Stop</span>
+        </button>
+        <button type="button" class="btn btn-default btn-lg btn-default" data-ng-click="sendCommand('seek_forward')">
+         <span class="glyphicon glyphicon-fast-forward"></span> 
         </button>
     </p>
     <p class="lead">

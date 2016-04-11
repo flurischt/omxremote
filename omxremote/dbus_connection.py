@@ -7,6 +7,7 @@ from dbus.exceptions import DBusException
 from subprocess import Popen
 
 # see https://raw.githubusercontent.com/popcornmix/omxplayer/master/dbuscontrol.sh
+# and https://github.com/popcornmix/omxplayer/blob/master/KeyConfig.h
 DBUS_COMMANDS = {
     'pause' : 16,
     'stop' : 15,
@@ -15,6 +16,8 @@ DBUS_COMMANDS = {
     'togglesubtitles' : 12,
     'hidesubtitles' : 30,
     'showsubtitles' : 31,
+    'seek_backward' : 21,
+    'seek_forward' : 22,
 }
 
 
@@ -55,7 +58,8 @@ class OmxRemote(object):
 
     def send_command(self, command):
         assert self.connected == True #TODO better raise a NotConnected exception?
-        self.player.Action(dbus.Int32(str(DBUS_COMMANDS[command])))
+        if command in DBUS_COMMANDS:
+            self.player.Action(dbus.Int32(str(DBUS_COMMANDS[command])))
 
     def status(self):
         if self.connected:
