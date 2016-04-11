@@ -16,8 +16,8 @@ DBUS_COMMANDS = {
     'togglesubtitles' : 12,
     'hidesubtitles' : 30,
     'showsubtitles' : 31,
-    'seek_backward' : 21,
-    'seek_forward' : 22,
+    'seek_backward' : 19,
+    'seek_forward' : 20,
 }
 
 
