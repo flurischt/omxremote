@@ -1,1 +1,1 @@
-from omxremote.backend import app
+from omxremote.backend import app  # noqa
